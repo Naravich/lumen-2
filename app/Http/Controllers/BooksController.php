@@ -11,6 +11,9 @@ class BooksController
  * @return array
  */
     public function index() {
-        return [];
+        return [
+            ['title' => 'War of the Worlds'],
+            ['title' => 'A Wrinkle in Time']
+        ];
     }
 }
