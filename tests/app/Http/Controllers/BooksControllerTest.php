@@ -47,12 +47,23 @@ class BooksControllerTest extends TestCase
     /** @test **/
     public function show_should_fail_when_the_book_id_does_not_exist()
     {
-        $this->markTestIncomplete('Pending test');
+        $this->get('/books/9999')
+            ->seeStatusCode(404)
+            ->seeJson([
+                'error' =>[
+                    'message' => 'Book not found'
+                ]
+            ]);
     }
 
     /** @test **/
     public function show_route_should_not_match_an_invalid_route()
     {
-        $this->markTestIncomplete('Pending test');
+        $this->get('/books/this-is-invalid');
+        $this->assertNotRegExp(
+            '/Book not found/',
+            $this->response->getContent(),
+            'BooksController@show route matching when it should not'
+        );
     }
 }
