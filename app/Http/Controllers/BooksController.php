@@ -1,5 +1,7 @@
 <?php
 namespace App\Http\Controllers;
+use App\Book;
+use Log;
 /**
 * Class BooksController
 * @package App\Http\Controllers
@@ -11,9 +13,6 @@ class BooksController
  * @return array
  */
     public function index() {
-        return [
-            ['title' => 'War of the Worlds'],
-            ['title' => 'A Wrinkle in Time']
-        ];
+        return Book::all();
     }
 }
