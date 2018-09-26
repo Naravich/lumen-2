@@ -16,7 +16,12 @@ $router->get('/', function () use ($router) {
 });
 
 $router->get('/books', 'BooksController@index');
-$router->get('/books/{id:[\d]+}', 'BooksController@show');
+$router->post('/books', 'BooksController@store');
+// $router->get('/books/{id:[\d]+}', 'BooksController@show');
+$router->get('/books/{id:[\d]+}', [
+    'as' => 'books.show',
+    'uses' => 'BooksController@show'
+]);
 
 $router->get('/hello/world', function () use ($router) {
     return "HELLO SEAGAME WORLD";
