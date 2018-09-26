@@ -16,6 +16,7 @@ $router->get('/', function () use ($router) {
 });
 
 $router->get('/books', 'BooksController@index');
+$router->get('/books/{id}', 'BooksController@show');
 
 $router->get('/hello/world', function () use ($router) {
     return "HELLO SEAGAME WORLD";

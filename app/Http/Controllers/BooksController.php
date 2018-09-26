@@ -15,4 +15,7 @@ class BooksController
     public function index() {
         return Book::all();
     }
+    public function show($id) {
+        return Book::findOrFail($id);
+    }
 }
