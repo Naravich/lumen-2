@@ -22,6 +22,7 @@ $router->get('/books/{id:[\d]+}', [
     'as' => 'books.show',
     'uses' => 'BooksController@show'
 ]);
+$router->put('/books/{id:[\d]+}', 'BooksController@update');
 
 $router->get('/hello/world', function () use ($router) {
     return "HELLO SEAGAME WORLD";
