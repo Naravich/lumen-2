@@ -43,8 +43,32 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Exception $e)
     {
-        return parent::render($request, $exception);
+        if ($request->wantsJson() && !($e instanceof ValidationException)) {
+            $response = [
+                'message' => (string) $e->getMessage(),
+                'status' => 400
+            ];
+            if ($e instanceof HttpResponseException) {
+                $response['message'] = Response::$statusTexts[$e->getStatusCode()];
+                $response['status'] = $e->getStatusCode();
+            }
+    
+            if ($this->isDebugMode()) {
+                $response['debug'] = [
+                    'exception' => get_class($e),
+                    'trace' => $e->getTrace()
+                ];
+            }
+    
+            return response()->json(['error' => $response], $response['status']);
+        }
+
+        return parent::render($request, $e);
+    }
+
+    public function isDebugMode() {
+        return (Boolean) env('APP_DEBUG');
     }
 }
