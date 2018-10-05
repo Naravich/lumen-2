@@ -16,11 +16,11 @@ class BooksController
  * @return array
  */
     public function index() {
-        return Book::all();
+        return ['data' => Book::all()->toArray()];
     }
 
     public function show($id) {
-        return Book::findOrFail($id);
+        return ['data' => Book::findOrFail($id)->toArray()];
         // try {
         //     return Book::findOrFail($id);
         // } catch (ModelNotFoundException $e) {
@@ -35,11 +35,17 @@ class BooksController
     public function store(Request $request)
     {
         $book = Book::create($request->all());
-        return response()->json(['created' => true], 201, [
+        return response()->json(['data' => $book->toArray()], 201, [
             'Location' => route('books.show', ['id' => $book->id])
         ]);
     }
 
+    /** 
+     * PUT /books/{id}
+     * @param Request $request
+     * @param $id
+     * @return mixed
+    */
     public function update(Request $request, $id)
     {
         try {
@@ -54,7 +60,7 @@ class BooksController
         $book->fill($request->all());
         $book->save();
 
-        return $book;
+        return ['data'=> $book->toArray()];
     }
 
     public function destroy($id)
